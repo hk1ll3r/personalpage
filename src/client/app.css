@@ -1,0 +1,169 @@
+/*** COMMON */
+body {
+    text-align: center;
+    margin: auto;
+}
+
+.inline {
+    display: inline;
+}
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.normaltext {
+    font-style: normal;
+    font-size: 1em;
+    font-family: Courier New;
+    text-align: left;
+}
+
+/*** HERO ***/
+
+#heroDiv {
+    overflow: auto;
+    margin-top: 0px;
+}
+
+.namediv {
+    font-family: Courier New;
+    font-size: 3em;
+    font-style: normal;
+    color: white;
+    margin-top: 30%;
+    margin-left: calc(50px + 10%);
+    margin-bottom: 10%;
+    width: 300px;
+    display: block;
+    text-align: left;
+    text-shadow: -1px 1px 3px #FF000066, 2px 1px 5px #0000FF66;
+}
+
+.hero {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: transparent;
+    height: 100%;
+    /* background-attachment: fixed; */
+    background-position: center; 
+    min-height: 300px; 
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+/*** POSTERS ***/
+.posterImage {
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.posterContainer {
+    display: block;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    overflow: hidden;
+    position: relative;
+}
+
+/*** Professional Section ***/
+.proHeader {
+    font-style: bold;
+    font-size: 2em;
+    font-family: Courier New;
+    display: block;
+}
+
+.imageHolder {
+    width: 30%;
+    min-width: 100px;
+    margin: 20px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.imageHolder img {
+    width: 100%;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    filter: grayscale(100%);
+    transform: scale(1);
+    transition: all 1s ease;
+}
+
+.imageHolder img.highlighted {
+   -webkit-filter: grayscale(0%);
+   -moz-filter: grayscale(0%);
+   filter: grayscale(0%);
+   transform: scale(1.2);
+}
+
+#proContainer {
+    max-width: 800px;
+    margin: auto;
+}
+
+.proItem {
+    overflow: auto; 
+    margin: 50px;
+    font-style: normal;
+    font-size: 1em;
+    font-family: Courier New;
+    display: block;
+    text-align: left;
+}
+
+/*** QUOTES ***/
+
+.quote {
+    font-family: Courier New;
+    font-size: 3em;
+    font-style: normal;
+    color: black;
+    margin: 100px;
+}
+
+.quote span.quoter {
+    font-size: .5em;
+    line-height: 200%;
+    margin-right: 50px;
+}
+
+/*** SOCIAL MEDIA ***/
+
+ul.socialmedia {
+    list-style-type: none;
+}
+
+ul.socialmedia li {
+    display: inline;
+    margin: 10px;
+}
+
+img.socialmedia {
+    width: 64px;
+    height: 64px;
+}
+
+#contactDiv {
+    margin: 50px;
+}
+
+/*** COPY RIGHT ***/
+#spacerDiv {
+    height: 10vh;
+    /*background-image: linear-gradient(white, rgba(0, 100, 200, 10));*/
+    padding: 1px;
+}
+
+#copyrightDiv {
+    margin-top: calc(10vh - 30px); 
+}
+

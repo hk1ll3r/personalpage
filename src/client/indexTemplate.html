@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hossein Shah's Homepage</title>
+    <script>
+
+        function myInit() {
+            const resizeCBDelay = 500; // millis
+            var controller = null;
+            function onResize() {
+                const posterAR = 16 / 9;
+                const pvp = .80; // poster visible percent
+                var wh = 0;
+                var ww = 0;
+                var posterH = 0;
+                var posterW = 0;
+                var proItemDurations = {};
+                var posterDuration = posterH * (1 - pvp);
+               
+                function getPosterDuration() {
+                    return posterH * pvp;
+                }
+
+                if (controller) controller.destroy();
+                controller = new ScrollMagic.Controller();
+
+                wh = window.innerHeight;
+                ww = $('body').innerWidth();
+                console.log('size: ' + ww + 'x' + wh);
+                let wAR = ww / wh;
+                posterW = ww;
+                posterH = posterW / posterAR;
+
+                if (wAR < posterAR) {
+                    if (posterH < wh / 2) {
+                        posterH = wh / 2;
+                        posterW = posterH * posterAR;
+                    }
+                }
+               
+                // apply sizes to all posters 
+                var posters = $('.posterContainer');
+                posters.each(function() {
+                    let containerEl = this;
+                    let containerH = posterH * pvp;
+                    containerEl.style.width=ww+'px';
+                    containerEl.style.height=containerH+'px';
+
+                    imgEl = $('#' + containerEl.id + ' img').get(0);
+                    imgEl.style.width=posterW+'px';
+                    imgEl.style.height=posterH+'px';
+                    imgEl.style.top= (posterH * (pvp - 0.5)) + 'px';
+
+                    let tween = TweenMax.fromTo(
+                        '#' + imgEl.id,
+                        0.5,
+                        { top: (posterH * (pvp - 0.5)) + 'px' },
+                        { top: (posterH * 0.5) + 'px' });
+                    let scene = new ScrollMagic.Scene({
+                      triggerElement: '#' + containerEl.id,
+                      triggerHook: 0.5,
+                      duration: getPosterDuration,
+                    })
+                    .setTween(tween) // the element we want to pin
+                    //.addIndicators()
+                    .addTo(controller);
+   
+                });
+
+                function curry1(fn, arg1) {
+                    return () => { return fn(arg1) };
+                }
+        
+                // Pro Animations
+                function getProItemDuration(id) {
+                    return proItemDurations[id];
+                }
+                var proItems = $('.proItem');
+                proItems.each(function() {
+                    let itemEl = this;
+                    let imgEl = $('#' + itemEl.id + ' img').get(0);
+                    if (!imgEl) {
+                        console.err('no image element found under ' + itemEl.id);
+                        return;
+                    }
+                    proItemDurations[itemEl.id] = itemEl.offsetHeight;
+
+                    let scene = new ScrollMagic.Scene({
+                        triggerElement: '#' + itemEl.id,
+                        triggerHook: 0.5,
+                        duration: curry1(getProItemDuration, itemEl.id),
+                    })
+                    .on("enter", function () {
+                        imgEl.classList.add("highlighted");
+                    })
+                    .on("leave", function () {
+                        imgEl.classList.remove("highlighted");
+                    })
+                    //.addIndicators('proItem')
+                    .addTo(controller);
+                });
+
+            }
+
+            let resizeTimeout = null;
+            window.addEventListener("resize", function(e) {
+                if (resizeTimeout !== null) {
+                    clearTimeout(resizeTimeout);
+                }
+                resizeTimeout = setTimeout(onResize, resizeCBDelay);
+            });
+
+            function extractImages() {
+                $("img[img-src]").each(function() {
+                    let el = this;
+                    el.src = mylib.default.images[el.getAttribute('img-src')];
+                });
+                $("div[bg-img-src]").each(function() {
+                    let el = this;
+                    el.style.backgroundImage = "url('" + mylib.default.images[el.getAttribute('bg-img-src')] + "')";
+                });
+            }
+
+            // Call during load 
+            extractImages();
+ 
+            // call initial onResize during load
+            onResize();
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+        }
+    </script>
+</head>
+<body onLoad="myInit()">
+    <div id='topDiv'>
+        <div bg-img-src='hero' id='heroDiv' class="topdiv hero">
+            <div class="namediv">
+                Hi! I'm<br> Hossein Shahbazi
+            </div>
+        </div>
+        <div class="quote">
+            We are all HUMAN<br>
+            <!--span class='quoter inline right'>- me</span-->
+        </div>
+
+        <div id='proPosterContainer' class="posterContainer">
+            <img img-src='professional' id='proPosterImage' class='posterImage'>
+        </div>
+
+        <div id='proContainer'>
+            <div id='microsoftProItem' class='proItem'>
+                <div id='proMicrosoft'>
+                    <div id='microsoftImageContainer' class='imageHolder right'>
+                        <img id='microsoftImage' img-src='microsoft'>
+                    </div>
+                    <span class='proHeader'>Microsoft: Windows Metro UI</span>
+ After I graduated from my masters program, I was excited to finally join the wonderful world of corporate to make real change in the world. So I joined one of the few tech giants everyone wanted to get into: Microsoft. To put it nicely my work there opened my eyes. Out ot date technology stack and internal tools, arrogant people who collectively had high opinions of themselves and their products, lack of a clear vision and direction... just to name a few of my observations during my stay there. Despite all the problems, I learnt a lot about corporate life. After I got my green card, I got out as soon as I could...
+                </div>
+            </div>
+
+            <div id='googleProItem' class='proItem'>
+                <div id='proGoogle'>
+                    <div id='googleImageContainer' class='imageHolder left'>
+                        <img id='googleImage' img-src='google'>
+                    </div>
+                    <span class='proHeader'>Google: Android Cloud OTA </span>
+I decided to give corporation America one more chance. Maybe I had been unlucky with my previous team. So I started interviewing again. Google advertises itself as a big company with startup culture and I had a few friends there that seemed fairly satisfied. So to Google I went. There I launched a few services for Android updates, ate a lot of free food, played a lot of Volleyball at Googleplex's various courts, played a lot of politics to get promoted, stashed some cash and had a wonderful time overall. Still it didn't satisfy me on a deeper level. I wanted to do something that mattered with my life. So I moved on. 
+        </div>
+            </div>
+
+            <div id='aliceProItem' class='proItem'>
+                <div id='proAlice'>
+                    <div id='aliceImageContainer' class='imageHolder right'>
+                        <img id='aliceImage' img-src='alice'>
+                    </div>
+                    <span class='proHeader'>Start Up: ALICE Technologies</span>
+                    Feeling I was ready for a more fun and ambitious challenge, I joined ALICE Technologies: a cool seed-stage start up in Silicon Valley. As employee number 5, I started as a Senior Software Engineer and over the coming year took over the Engineering efforts. I was in the weeds with developing the product from pre-alpha to release, managing the engineering team, hiring new Engineers, working closely with the marketing and sales initiatives in the company, and many other things... a seed level start up may not be that structured :) I had a great time at ALICE Technologies and believe it will transform the Construction Industry in myriad ways. Alas I got bored with my responsibilities and went back to the boiling pot once more.
+                </div>
+            </div>
+
+            <div id='nowProItem' class='proItem'>
+                <div id='proNow'>
+                    <img id='nowImage' class='inline'>
+                    <span class='proHeader'>No Such Studio: Back to the origin</span>
+ I've always been a gamer and spent a lot of time playing video games as a teenager. The complexity of the games amused me and inspired me at the same time. Making games was one of the reasons I got into programming in the first place. I made a few games in Q-Basic back in highschool. I made a few games using visual basic and java in my undergrad as well. It felt great when friends, school-mates would play my game and enjoy it.
+ I am currently learning game development using Unity and am looking for talented, motivated and cool individuals with relevant skills (game development, 3D design, animation, sound design, etc.) to colaborate with. Follow me on my journey into game development on my website here: <a target='_black' href='http://www.nosuchstudio.com'>No Such Studio</a>. Also feel free to <a href='#contactDiv'>contact me</a>.
+                </div>
+            </div>
+        </div>
+
+        <!--div id='skydiveDiv' class="posterContainer">
+        </div-->
+        <div id='skydivePosterContainer' class="posterContainer">
+            <img id='skydivePosterImage' class='posterImage' img-src='skydive'>
+        </div>
+        <div class="quote">
+            stay hungry... stay foolish...<br>
+            <span class='quoter inline right'>-- Steve Jobs</span>
+        </div>
+
+        <div id='contactDiv'>
+            <div class='normaltext'>
+                If you are looking for any of the following, feel free to contact me via any of the social media links below. Or just say hi or send nudes. I can't really stop you.<br>
+                <ul>
+                    <li>a chill technical co-founder to bring an idea to life</li>
+                    <li>a young mentor to help you navigate the tech scene of the Silicon Valley</li>
+                    <li>a mentee to make you feel not totally useless</li>
+                    <li>a B level Volleyball player for sand or indoor games</li>
+                </ul>
+            </div>
+            <ul class='socialmedia'>
+                <li>
+                    <a target="_blank" href='https://www.facebook.com/hossein.shahbazi'><img img-src='facebook' id='facebookImage' class='socialmedia' alt='facebook'></a>
+                </li><li>
+                    <a target="_blank" href='https://www.instagram.com/josehosesyou'><img id='instagramImage' img-src='instagram' class='socialmedia' alt='insta'></a>
+                </li><li>
+                    <a target="_blank" href='https://twitter.com/hk1ll3r'><img id='twitterImage' alt='twitter' img-src='twitter' class='socialmedia'></a>
+                </li><li>
+                    <a target="_blank" href='https://www.linkedin.com/in/hossein-shah'><img id='linkedinImage' img-src='linkedin' alt='in' class='socialmedia'></a>
+                </li>
+            </ul>
+        </div>
+        <div id='spacerDiv'>
+            <div id='copyrightDiv'>&copy; All Rights Reserved 2018</div>
+        </div>
+
+    </div>
+</body>
+
+</html>
