@@ -17,6 +17,7 @@ body {
 }
 
 .normaltext {
+    margin: 50px;
     font-style: normal;
     font-size: 1em;
     font-family: Courier New;
@@ -153,7 +154,8 @@ img.socialmedia {
 }
 
 #contactDiv {
-    margin: 50px;
+    margin: auto;
+    max-width: 800px;
 }
 
 /*** COPY RIGHT ***/

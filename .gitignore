@@ -1,5 +1,7 @@
 .vscode
+*.log
+*.swp
+package-lock.json
 node_modules
 dist
-*.log
 yarn.lock

@@ -4,22 +4,21 @@
   "description": "Hossein Shahbazi's personal homepage",
   "main": "src/server/index.js",
   "scripts": {
-    "watchpack": "webpack --config debug.webpack.config.js --devtool inline-source-map --hot",
-    "client": "webpack --config prod.webpack.config.js",
-    "start": "npm run client && node src/server/index.js",
-    "server": "DEBUG=express:* nodemon src/server/index.js"
+    "build": "npm run buildclient && npm run copy",
+    "buildclient": "webpack --config prod.webpack.config.js",
+    "copy": "npm run copygcloud && npm run copyserver",
+    "copyserver": "cpx 'src/server/*' dist",
+    "copygcloud": "cpx 'gcloud/*' dist -v",
+    "devclient": "webpack --config debug.webpack.config.js --devtool inline-source-map --hot",
+    "devserver": "DEBUG=express:* nodemon src/server/index.js"
   },
   "author": "Hossein Shahbazi",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
-    "gsap": "^2.0.2",
     "jquery": "^3.3.1",
     "pg-promise": "^5.9.7",
-    "pug": "^2.0.3",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "scrollmagic": "^2.0.6"
+    "pug": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -29,6 +28,7 @@
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
     "clean-webpack-plugin": "^0.1.19",
+    "cpx": "^1.5.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.0.0",
     "eslint-config-airbnb": "^17.0.0",
@@ -36,9 +36,13 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
     "file-loader": "^2.0.0",
+    "gsap": "^2.0.2",
     "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.17.3",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "style-loader": "^0.23.0",
+    "scrollmagic": "^2.0.6",
     "url-loader": "^1.0.1",
     "webpack": "^4.5.0",
     "webpack-cli": "^3.0.8",
